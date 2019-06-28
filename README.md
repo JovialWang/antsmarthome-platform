@@ -3,6 +3,8 @@
 本插件可以支持“普及e家”、“小蚁智家”、“哈奇智家”3个app的智能家居，这3个app都访问到一个后端应用，且协议也一致，且均是通过app向云端发送指令，在通过云端向家里的网关发送指令实现对设备的控制。
 项目中smarthome-0.0.1-SNAPSHOT.jar是通过反编译小蚁智家后编写而来，这个jar就担任homekit指令到云端的代理。homekit指令实际上会先发给这个java应用，再由java应用转发到云端。
 
+![https://github.com/JovialWang/resource/blob/master/IMG_C4B8BCAFC035-1.jpeg?raw=true](https://github.com/JovialWang/resource/blob/master/IMG_C4B8BCAFC035-1.jpeg?raw=true)
+
 ## 环境依赖
 
 - Java环境：JRE 8以上
