@@ -55,4 +55,4 @@ java -jar smarthome-0.0.1-SNAPSHOT.jar ${username} ${password} ${hostname}
 
 其中`${username}`为你手机登陆“普及e家”、“小蚁智家”、“哈奇智家”这3个应用的用户名称，一般应该是你的注册手机号，`${password}`为你的登陆密码。`${hostname}`为你的homebridge所在的机器地址。同样，如果你的smarthome-0.0.1-SNAPSHOT.jar和homebridge在同一台机器上执行，那么可以写当前机器地址。
 
-应用启动后，再启动homebridge，应该可以看到所有的家庭设备了。
+应用启动后，再启动homebridge，这时候看手机homekit，应该可以看到所有的家庭设备了。
