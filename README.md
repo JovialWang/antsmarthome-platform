@@ -26,7 +26,7 @@ npm install ${yourpath}/antsmarthome-platform
 
 其中`${yourpath}`需要替换为你的文件路径
 
-安装完成后，需要对于插件进行配置
+安装完成后，需要对于插件进行配置，配置文件位于homebridge根目录的config.json文件
 
 ```JSON
 {
