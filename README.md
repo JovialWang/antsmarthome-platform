@@ -14,17 +14,15 @@
 
 Homebridge的安装过程可以参考其官方文档：[https://github.com/nfarina/homebridge#installation](https://github.com/nfarina/homebridge#installation)
 
-Homebridge安装完成后可以开始安装本插件
+Homebridge安装完成后可以开始安装本插件，首先进入Homebridge文件夹，拉取插件
 ```
 git clone https://github.com/JovialWang/antsmarthome-platform.git
 ```
 
-进入你的homebridge路径，安装插件
+在Homebridge目录中安装插件
 ```
-npm install ${yourpath}/antsmarthome-platform
+npm install ./antsmarthome-platform
 ```
-
-其中`${yourpath}`需要替换为你的文件路径
 
 安装完成后，需要对于插件进行配置，配置文件位于homebridge根目录的config.json文件
 
@@ -44,6 +42,8 @@ npm install ${yourpath}/antsmarthome-platform
 
 注意替换其中`${hostname}`为你后面执行smarthome-0.0.1-SNAPSHOT.jar的机器地址，如果你的smarthome-0.0.1-SNAPSHOT.jar和homebridge在同一台机器上执行，那么可以写当前机器地址。
 
+**注意：这个时候先不要启动homebridge，因为还缺少Java代理应用**
+
 ## 启动服务
 
 以上配置完成后可以开始执行启动命令，首先需要启动smarthome-0.0.1-SNAPSHOT.jar这个Java应用。
@@ -56,3 +56,7 @@ java -jar smarthome-0.0.1-SNAPSHOT.jar ${username} ${password} ${hostname}
 其中`${username}`为你手机登陆“普及e家”、“小蚁智家”、“哈奇智家”这3个应用的用户名称，一般应该是你的注册手机号，`${password}`为你的登陆密码。`${hostname}`为你的homebridge所在的机器地址。同样，如果你的smarthome-0.0.1-SNAPSHOT.jar和homebridge在同一台机器上执行，那么可以写当前机器地址。
 
 应用启动后，再启动homebridge，这时候看手机homekit，应该可以看到所有的家庭设备了。
+
+## 其他
+
+如果插件启动出现问题需要重置，可以收工删除Homebridge目录下accessories中cachedAccessories文件，再进入antsmarthome-platform文件夹删除accessory_map.json文件。
