@@ -26,21 +26,12 @@ module.exports = function(homebridge) {
 // api may be null if launched from old homebridge version
 function AntSmartHomePlatform(log, config, api) {
   log("AntSmartHomePlatform Init");
+  log("accessory_map.json path:"+__dirname);
   var platform = this;
   this.log = log;
   this.config = config;
   this.accessories = [];
   this.accessoryMap = {};
-
-  var exists = fs.existsSync("/homebridge/accessory_map.json");
-  if(exists){
-    var data = fs.readFileSync('/homebridge/accessory_map.json', 'utf8');
-    if(data){
-      platform.log("load:" + data)
-      platform.accessoryMap = JSON.parse(data);
-      platform.log("accessoryMap:" + JSON.stringify(platform.accessoryMap))
-    }
-  }
 
   this.requestServer = http.createServer(function(request, response) {
     if (request.url === "/add") {
@@ -54,7 +45,7 @@ function AntSmartHomePlatform(log, config, api) {
         devices.forEach( device => {
           platform.addAccessory(device);
         })
-        fs.writeFileSync('/homebridge/accessory_map.json',JSON.stringify(platform.accessoryMap), {encoding: 'utf8'});
+        fs.writeFileSync(__dirname+'/accessory_map.json',JSON.stringify(platform.accessoryMap), {encoding: 'utf8'});
       });
       response.writeHead(204);
       response.end();
@@ -65,9 +56,7 @@ function AntSmartHomePlatform(log, config, api) {
           post += chunk;
       });
       request.on('end', function(){
-        platform.log("updateValue1:"+post);
         var message = JSON.parse(post);
-        platform.log("updateValue2:"+message);
         var uuid = UUIDGen.generate(message.macAddr);
         var status = message.status;
         var i;
@@ -97,6 +86,31 @@ function AntSmartHomePlatform(log, config, api) {
   this.requestServer.listen(18081, function() {
     platform.log("Server Listening...");
   });
+
+  var exists = fs.existsSync(__dirname+"/accessory_map.json");
+  if(exists){
+    var data = fs.readFileSync(__dirname+'/accessory_map.json', 'utf8');
+    if(data){
+      platform.log("load:" + data)
+      platform.accessoryMap = JSON.parse(data);
+      platform.log("accessoryMap:" + JSON.stringify(platform.accessoryMap))
+    }
+  }else{
+    request(
+      "http://"+config.smarthome.host+":8080/api/init",
+      function (error, response, body) {
+        if (error) {
+          platform.log(error.message);
+        }
+        platform.log(response);
+        var devices = JSON.parse(body);
+        devices.forEach( device => {
+          platform.addAccessory(device);
+        })
+        fs.writeFileSync(__dirname+'/accessory_map.json',JSON.stringify(platform.accessoryMap), {encoding: 'utf8'});
+      }
+    );
+  }
 
 
   if (api) {
